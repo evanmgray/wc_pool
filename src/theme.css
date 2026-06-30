@@ -157,6 +157,107 @@ a {
   margin: 24px 4px 12px;
 }
 
+/* ---------- Live games ---------- */
+.section-label.live {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--neon-green);
+}
+.live-card {
+  margin-bottom: 12px;
+  padding: 14px;
+}
+.live-card-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+.live-meta {
+  color: var(--muted);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.live-teams {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+.live-team {
+  background: var(--bg-card-2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px;
+}
+.live-team-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+.live-team-head .flag {
+  font-size: 18px;
+}
+.live-team-name {
+  font-family: var(--display);
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+.live-count {
+  margin-left: auto;
+  font-family: var(--display);
+  font-size: 13px;
+  color: var(--neon-green);
+  min-width: 22px;
+  text-align: center;
+}
+.live-people {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.live-person {
+  font-family: var(--display);
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: var(--text);
+}
+.live-person.muted {
+  color: var(--muted);
+}
+.live-empty {
+  color: var(--muted);
+  font-size: 12px;
+}
+.live-nopick {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--line);
+  opacity: 0.55;
+}
+.live-nopick-head {
+  font-family: var(--display);
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.live-nopick .live-people {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+}
+
 /* ---------- Leaderboard ---------- */
 .lb-head {
   display: grid;

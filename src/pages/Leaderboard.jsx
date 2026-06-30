@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import Header from '../components/Header.jsx'
+import LiveGames from '../components/LiveGames.jsx'
 import { useResults } from '../context/ResultsContext.jsx'
 import { BRACKETS } from '../lib/loadBrackets.js'
 import { buildLeaderboard } from '../lib/scoring.js'
@@ -12,6 +13,8 @@ export default function Leaderboard() {
   return (
     <>
       <Header subtitle="Round of 16 Bracket" />
+
+      <LiveGames results={results} />
 
       {BRACKETS.length === 0 ? (
         <div className="empty">No brackets uploaded yet</div>
