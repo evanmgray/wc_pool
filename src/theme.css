@@ -724,7 +724,7 @@ a {
   text-decoration: line-through;
   text-decoration-thickness: 2px;
 }
-.match.pending .pick-line {
+.match.pending:not(.dead) .pick-line {
   color: var(--text);
 }
 .match-score {
