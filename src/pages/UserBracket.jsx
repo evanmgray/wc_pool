@@ -88,7 +88,7 @@ export default function UserBracket() {
                 <div className={`match ${m.status}`} key={m.id}>
                   <div className="match-info">
                     <div className="match-meta">
-                      {isLive(m.kickoff) && (
+                      {isLive(m.kickoff) && !m.decided && (
                         <span className="live-badge">
                           <span className="live-dot" />
                           Live

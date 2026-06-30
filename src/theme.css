@@ -211,14 +211,6 @@ a {
   font-size: 13px;
   letter-spacing: 0.02em;
 }
-.live-count {
-  margin-left: auto;
-  font-family: var(--display);
-  font-size: 13px;
-  color: var(--neon-green);
-  min-width: 22px;
-  text-align: center;
-}
 .live-people {
   display: flex;
   flex-direction: column;

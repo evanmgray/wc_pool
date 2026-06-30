@@ -55,7 +55,6 @@ export default function LiveGames({ results }) {
                   <div className="live-team-head">
                     <span className="flag">{teamFlag(g.team)}</span>
                     <span className="live-team-name">{teamName(g.team)}</span>
-                    <span className="live-count">{g.people.length}</span>
                   </div>
                   <div className="live-people">
                     {g.people.length ? (
