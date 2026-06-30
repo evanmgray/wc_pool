@@ -69,7 +69,7 @@ export function scoreBracket(bracket, results) {
       round: m.round,
       roundName: ROUNDS[m.round].name,
       venue: m.venue || null,
-      date: m.date || null,
+      kickoff: m.kickoff || null,
       points,
       pick,
       winner,

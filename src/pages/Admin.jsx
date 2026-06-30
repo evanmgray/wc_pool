@@ -5,6 +5,7 @@ import { saveResults } from '../lib/api.js'
 import { MATCHES, ROUND_ORDER, ROUNDS } from '../data/bracketStructure.js'
 import { resolveActualTeams } from '../lib/scoring.js'
 import { teamFlag } from '../data/teams.js'
+import { formatKickoff } from '../lib/datetime.js'
 
 const PIN = '425299'
 
@@ -141,7 +142,7 @@ export default function Admin() {
                 return (
                   <div className="admin-match" key={m.id}>
                     <div className="am-meta">
-                      <span>{[m.venue, m.date].filter(Boolean).join(' · ') || m.id}</span>
+                      <span>{[m.venue, formatKickoff(m.kickoff)].filter(Boolean).join(' · ') || m.id}</span>
                       <span>{m.id}</span>
                     </div>
                     <div className="am-options">

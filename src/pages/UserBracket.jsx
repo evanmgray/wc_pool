@@ -4,6 +4,7 @@ import { getBracket } from '../lib/loadBrackets.js'
 import { scoreBracket } from '../lib/scoring.js'
 import { ROUND_ORDER, ROUNDS } from '../data/bracketStructure.js'
 import { teamFlag, teamName } from '../data/teams.js'
+import { formatKickoff } from '../lib/datetime.js'
 
 function matchup(actualTeams) {
   const [a, b] = actualTeams
@@ -72,7 +73,8 @@ export default function UserBracket() {
                 <div className={`match ${m.status}`} key={m.id}>
                   <div className="match-info">
                     <div className="match-meta">
-                      {[m.venue, m.date].filter(Boolean).join(' · ') || m.roundName}
+                      {[m.venue, formatKickoff(m.kickoff)].filter(Boolean).join(' · ') ||
+                        m.roundName}
                     </div>
                     <div className="matchup">{matchup(m.actualTeams)}</div>
                     <div className="pick-line">
