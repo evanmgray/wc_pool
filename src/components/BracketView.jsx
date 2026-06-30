@@ -19,8 +19,9 @@ function TeamRow({ code, m }) {
   const cls = [
     'brow',
     picked && 'picked',
-    picked && m.decided && m.status === 'correct' && 'correct',
-    picked && m.decided && m.status === 'incorrect' && 'wrong',
+    picked && m.status === 'correct' && 'correct',
+    // pink + strikethrough whenever the picked team is out (this game or an earlier one)
+    picked && m.pickDead && 'wrong',
     isWinner && 'winner',
   ]
     .filter(Boolean)
@@ -28,7 +29,8 @@ function TeamRow({ code, m }) {
 
   let tag = null
   if (picked) {
-    if (m.decided) tag = m.status === 'correct' ? `+${m.earned}` : '0'
+    if (m.status === 'correct') tag = `+${m.earned}`
+    else if (m.pickDead) tag = '0'
     else tag = `${m.points} pts`
   }
 

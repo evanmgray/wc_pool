@@ -47,6 +47,7 @@ export function scoreBracket(bracket, results) {
     const pick = picks[m.id] ?? null
     const winner = results[m.id] ?? null
     const decided = Boolean(winner)
+    const pickEliminated = Boolean(pick && eliminated.has(pick))
 
     let status // 'correct' | 'incorrect' | 'pending'
     let earned = 0
@@ -77,7 +78,10 @@ export function scoreBracket(bracket, results) {
       decided,
       status,
       earned,
-      pickAlive: pick ? !eliminated.has(pick) : false,
+      pickAlive: pick ? !pickEliminated : false,
+      // The picked team is out — mark this and every later pick of that team. A match the
+      // pick already won (status 'correct') stays correct even if the team is out later.
+      pickDead: status !== 'correct' && pickEliminated,
     }
   })
 

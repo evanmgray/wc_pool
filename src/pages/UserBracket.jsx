@@ -106,7 +106,7 @@ export default function UserBracket() {
             </div>
             <div className="card">
               {roundMatches.map((m) => (
-                <div className={`match ${m.status}`} key={m.id}>
+                <div className={`match ${m.status}${m.pickDead ? ' dead' : ''}`} key={m.id}>
                   <div className="match-info">
                     <div className="match-meta">
                       {isLive(m.kickoff) && !m.decided && (

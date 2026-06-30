@@ -158,11 +158,8 @@ a {
 }
 
 /* ---------- Live games ---------- */
-.section-label.live {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--neon-green);
+.live-section {
+  margin-top: 20px;
 }
 .live-card {
   margin-bottom: 12px;
@@ -699,7 +696,8 @@ a {
 .match.correct .pick-line {
   color: var(--neon-green);
 }
-.match.incorrect .pick-line {
+.match.incorrect .pick-line,
+.match.dead .pick-line {
   color: var(--neon-pink);
   text-decoration: line-through;
   text-decoration-thickness: 2px;

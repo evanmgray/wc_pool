@@ -22,10 +22,7 @@ export default function LiveGames({ results }) {
   const actual = resolveActualTeams(results)
 
   return (
-    <>
-      <div className="section-label live">
-        <span className="live-dot" /> Live Now
-      </div>
+    <div className="live-section">
       {live.map((m) => {
         const teams = actual[m.id].filter(Boolean)
         const groups = teams.map((team) => ({
@@ -86,6 +83,6 @@ export default function LiveGames({ results }) {
           </div>
         )
       })}
-    </>
+    </div>
   )
 }
