@@ -377,6 +377,214 @@ a {
   font-size: 20px;
 }
 
+/* ---------- View toggle ---------- */
+.view-toggle {
+  display: flex;
+  gap: 6px;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 4px;
+  margin: 16px 0 4px;
+}
+.view-btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--display);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+.view-btn.active {
+  background: var(--neon-green);
+  color: var(--bg);
+  box-shadow: 0 0 12px rgba(57, 255, 20, 0.45);
+}
+
+/* ---------- Bracket (swipe) view ---------- */
+.round-tabs {
+  display: flex;
+  gap: 6px;
+  margin-top: 16px;
+}
+.round-tab {
+  flex: 1;
+  padding: 9px 4px;
+  border-radius: 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-family: var(--display);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+.round-tab.active {
+  color: var(--neon-blue);
+  border-color: var(--neon-blue);
+  box-shadow: 0 0 10px rgba(24, 220, 255, 0.3);
+}
+.round-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 16px 0 12px;
+}
+.round-title {
+  font-family: var(--display);
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  color: var(--neon-green);
+  text-align: center;
+  flex: 1;
+}
+.nav-arrow {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  color: var(--text);
+  font-size: 22px;
+  line-height: 1;
+}
+.nav-arrow:disabled {
+  opacity: 0.3;
+}
+
+.round-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  touch-action: pan-y;
+  animation: round-in 0.22s ease;
+}
+@keyframes round-in {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.bcell {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px;
+}
+.bcell-meta {
+  display: flex;
+  align-items: center;
+  color: var(--muted);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+.bcell-teams {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.brow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--bg-card-2);
+  border: 1px solid transparent;
+}
+.brow .flag {
+  font-size: 18px;
+}
+.brow-name {
+  font-family: var(--display);
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  flex: 1;
+  min-width: 0;
+  color: var(--muted);
+}
+.brow.picked .brow-name {
+  color: var(--text);
+}
+.brow.picked {
+  border-color: var(--neon-blue);
+}
+.brow.picked.correct {
+  border-color: var(--neon-green);
+  background: rgba(57, 255, 20, 0.12);
+}
+.brow.picked.correct .brow-name {
+  color: var(--neon-green);
+}
+.brow.picked.wrong {
+  border-color: var(--neon-pink);
+}
+.brow.picked.wrong .brow-name {
+  color: var(--neon-pink);
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+}
+.brow-check {
+  color: var(--neon-green);
+  font-size: 14px;
+  font-weight: 700;
+}
+.brow-tag {
+  font-family: var(--display);
+  font-size: 13px;
+  padding: 3px 9px;
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--muted);
+}
+.brow.picked.correct .brow-tag {
+  background: var(--neon-green);
+  color: var(--bg);
+}
+.brow.picked.wrong .brow-tag {
+  color: var(--neon-pink);
+}
+.bcell-result {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--line);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+.bcell-result .flag {
+  font-size: 14px;
+}
+
+.round-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 16px 0 4px;
+}
+.round-dots .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line);
+}
+.round-dots .dot.active {
+  background: var(--neon-green);
+  box-shadow: 0 0 8px var(--neon-green);
+}
+
 .match {
   padding: 12px 14px;
   border-top: 1px solid var(--line);

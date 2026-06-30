@@ -6,6 +6,7 @@ import { scoreBracket } from '../lib/scoring.js'
 import { ROUND_ORDER, ROUNDS } from '../data/bracketStructure.js'
 import { teamFlag, teamName } from '../data/teams.js'
 import { formatKickoff, isLive } from '../lib/datetime.js'
+import BracketView from '../components/BracketView.jsx'
 
 function matchup(actualTeams) {
   const [a, b] = actualTeams
@@ -26,6 +27,8 @@ export default function UserBracket() {
   const { id } = useParams()
   const { results } = useResults()
   const bracket = getBracket(id)
+
+  const [view, setView] = useState('list') // 'list' | 'bracket'
 
   // Re-render every minute so the live indicator turns on/off without a refresh.
   const [, setTick] = useState(0)
@@ -69,7 +72,25 @@ export default function UserBracket() {
         </div>
       </div>
 
-      {ROUND_ORDER.map((roundKey) => {
+      <div className="view-toggle">
+        <button
+          className={`view-btn${view === 'list' ? ' active' : ''}`}
+          onClick={() => setView('list')}
+        >
+          List
+        </button>
+        <button
+          className={`view-btn${view === 'bracket' ? ' active' : ''}`}
+          onClick={() => setView('bracket')}
+        >
+          Bracket
+        </button>
+      </div>
+
+      {view === 'bracket' && <BracketView matches={scored.matches} picks={bracket.picks} />}
+
+      {view === 'list' &&
+        ROUND_ORDER.map((roundKey) => {
         const roundMatches = scored.matches
           .filter((m) => m.round === roundKey)
           .sort((a, b) => {
@@ -120,10 +141,12 @@ export default function UserBracket() {
         )
       })}
 
-      <p className="note">
-        Green = correct pick · Pink = eliminated · “Open” = still in play · “Out” = your pick
-        was knocked out.
-      </p>
+      {view === 'list' && (
+        <p className="note">
+          Green = correct pick · Pink = eliminated · “Open” = still in play · “Out” = your
+          pick was knocked out.
+        </p>
+      )}
     </>
   )
 }
