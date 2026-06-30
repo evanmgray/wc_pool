@@ -143,17 +143,17 @@ export default function BracketView({ matches, picks }) {
           const next = g.parent ? MATCH_BY_ID[g.parent] : null
           return (
             <div className={`pair-group${next ? '' : ' solo'}`} key={g.parent ?? g.items[0].id}>
-              {next && (
-                <div className="pair-head">
-                  Winners meet in
-                  <span className="pair-dest">{next.venue || ROUNDS[next.round].name}</span>
-                </div>
-              )}
               <div className="pair-cells">
                 {g.items.map((m) => (
                   <BracketCell key={m.id} m={m} picks={picks} />
                 ))}
               </div>
+              {next && (
+                <div className="pair-link">
+                  <span className="pair-dest-label">Winners meet in</span>
+                  <span className="pair-dest">{next.venue || ROUNDS[next.round].name}</span>
+                </div>
+              )}
             </div>
           )
         })}

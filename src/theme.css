@@ -460,49 +460,71 @@ a {
   animation: round-in 0.22s ease;
 }
 
-/* A feeder pair: the two games whose winners meet in the next round. */
+/* A feeder pair: the two games whose winners meet in the next round. The connector and
+   "winners meet in X" label sit on the RIGHT of the two games. */
 .pair-group {
-  position: relative;
-  padding-left: 16px;
-}
-.pair-group::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 18px;
-  bottom: 18px;
-  width: 10px;
-  border: 2px solid var(--neon-blue);
-  border-right: none;
-  border-radius: 10px 0 0 10px;
-  opacity: 0.5;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
 }
 .pair-group.solo {
-  padding-left: 0;
-}
-.pair-group.solo::before {
-  display: none;
-}
-.pair-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 8px;
-  color: var(--neon-blue);
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-.pair-dest {
-  font-family: var(--display);
-  letter-spacing: 0.02em;
-  font-size: 12px;
+  display: block;
 }
 .pair-cells {
+  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+.pair-link {
+  position: relative;
+  flex: 0 0 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 3px;
+  padding-left: 22px;
+}
+/* "]" bracket gathering the two games, opening toward the label on the right */
+.pair-link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 25%;
+  bottom: 25%;
+  width: 12px;
+  border: 2px solid var(--neon-blue);
+  border-left: none;
+  border-radius: 0 10px 10px 0;
+  opacity: 0.5;
+}
+.pair-link::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  width: 9px;
+  height: 2px;
+  background: var(--neon-blue);
+  opacity: 0.5;
+}
+.pair-dest-label {
+  color: var(--neon-blue);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+}
+.pair-dest {
+  font-family: var(--display);
+  text-transform: uppercase;
+  color: var(--neon-blue);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
 }
 @keyframes round-in {
   from {
