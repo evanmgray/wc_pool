@@ -19,6 +19,16 @@ export function formatKickoff(iso) {
   return `${date} · ${time} ${tzAbbr(d)}`.trim()
 }
 
+// True while a match is "active": now is at or after kickoff and within `windowHours`
+// (default 3h) of it. Used to show a live indicator.
+export function isLive(iso, windowHours = 3) {
+  if (!iso) return false
+  const start = new Date(iso).getTime()
+  if (Number.isNaN(start)) return false
+  const now = Date.now()
+  return now >= start && now < start + windowHours * 60 * 60 * 1000
+}
+
 // "4:30 PM EDT" — when the date is shown elsewhere.
 export function formatKickoffTime(iso) {
   if (!iso) return null

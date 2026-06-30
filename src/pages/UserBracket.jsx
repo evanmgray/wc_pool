@@ -1,10 +1,11 @@
+import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useResults } from '../context/ResultsContext.jsx'
 import { getBracket } from '../lib/loadBrackets.js'
 import { scoreBracket } from '../lib/scoring.js'
 import { ROUND_ORDER, ROUNDS } from '../data/bracketStructure.js'
 import { teamFlag, teamName } from '../data/teams.js'
-import { formatKickoff } from '../lib/datetime.js'
+import { formatKickoff, isLive } from '../lib/datetime.js'
 
 function matchup(actualTeams) {
   const [a, b] = actualTeams
@@ -25,6 +26,13 @@ export default function UserBracket() {
   const { id } = useParams()
   const { results } = useResults()
   const bracket = getBracket(id)
+
+  // Re-render every minute so the live indicator turns on/off without a refresh.
+  const [, setTick] = useState(0)
+  useEffect(() => {
+    const t = setInterval(() => setTick((n) => n + 1), 60 * 1000)
+    return () => clearInterval(t)
+  }, [])
 
   if (!bracket) {
     return (
@@ -80,6 +88,12 @@ export default function UserBracket() {
                 <div className={`match ${m.status}`} key={m.id}>
                   <div className="match-info">
                     <div className="match-meta">
+                      {isLive(m.kickoff) && (
+                        <span className="live-badge">
+                          <span className="live-dot" />
+                          Live
+                        </span>
+                      )}
                       {[m.venue, formatKickoff(m.kickoff)].filter(Boolean).join(' · ') ||
                         m.roundName}
                     </div>
