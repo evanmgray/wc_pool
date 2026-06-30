@@ -8,11 +8,22 @@ import { teamFlag, teamName } from '../data/teams.js'
 
 export default function Leaderboard() {
   const { results, loading } = useResults()
-  const rows = buildLeaderboard(BRACKETS, results)
+  const sorted = buildLeaderboard(BRACKETS, results)
+
+  // Tied players (same total points AND same points remaining) share a rank; the next
+  // distinct score skips ahead ("1224" competition ranking).
+  let rank = 0
+  const rows = sorted.map((r, i) => {
+    const prev = sorted[i - 1]
+    if (!prev || r.totalPoints !== prev.totalPoints || r.pointsRemaining !== prev.pointsRemaining) {
+      rank = i + 1
+    }
+    return { ...r, rank }
+  })
 
   return (
     <>
-      <Header subtitle="Round of 16 Bracket" />
+      <Header subtitle="Elimination Round Bracket" />
 
       <LiveGames results={results} />
 
@@ -27,13 +38,13 @@ export default function Leaderboard() {
             <span className="col-r">Left</span>
           </div>
           <div className="card">
-            {rows.map((r, i) => (
+            {rows.map((r) => (
               <Link
                 to={`/u/${r.id}`}
                 key={r.id}
-                className={`lb-row${i < 3 ? ` top-${i + 1}` : ''}`}
+                className={`lb-row${r.rank <= 3 ? ` top-${r.rank}` : ''}`}
               >
-                <span className="lb-rank">{i + 1}</span>
+                <span className="lb-rank">{r.rank}</span>
                 <span>
                   <span className="lb-name">{r.name}</span>
                   <span className="lb-champ">
