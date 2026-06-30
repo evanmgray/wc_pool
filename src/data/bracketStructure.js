@@ -48,11 +48,13 @@ export const MATCHES = [
   { id: 'qf-4', round: 'qf', feeders: ['r16-7', 'r16-8'], venue: 'Kansas City', date: 'Jul 11' },
 
   // ---- Semi-finals ----
-  { id: 'sf-1', round: 'sf', feeders: ['qf-1', 'qf-2'], date: 'Jul 14' },
-  { id: 'sf-2', round: 'sf', feeders: ['qf-3', 'qf-4'], date: 'Jul 15' },
+  // Left half (Boston qf-1 + Los Angeles qf-3) meet in Dallas; right half
+  // (Miami qf-2 + Kansas City qf-4) meet in Atlanta. Confirmed against FIFA brackets.
+  { id: 'sf-1', round: 'sf', feeders: ['qf-1', 'qf-3'], venue: 'Dallas', date: 'Jul 14' },
+  { id: 'sf-2', round: 'sf', feeders: ['qf-2', 'qf-4'], venue: 'Atlanta', date: 'Jul 15' },
 
   // ---- Final ----
-  { id: 'final', round: 'final', feeders: ['sf-1', 'sf-2'], date: 'Jul 19' },
+  { id: 'final', round: 'final', feeders: ['sf-1', 'sf-2'], venue: 'New York', date: 'Jul 19' },
 ]
 
 export const MATCH_BY_ID = Object.fromEntries(MATCHES.map((m) => [m.id, m]))
