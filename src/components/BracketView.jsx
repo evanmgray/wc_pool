@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { MATCH_BY_ID, ROUND_ORDER, ROUNDS } from '../data/bracketStructure.js'
+import { MATCH_BY_ID, NEXT_MATCH, ROUND_ORDER, ROUNDS } from '../data/bracketStructure.js'
 import { teamFlag, teamName } from '../data/teams.js'
 import { formatKickoff, isLive } from '../lib/datetime.js'
 
@@ -89,13 +89,26 @@ export default function BracketView({ matches, picks }) {
   }
 
   const roundKey = ROUND_ORDER[idx]
-  const roundMatches = matches
-    .filter((m) => m.round === roundKey)
-    .sort((a, b) => {
-      if (!a.kickoff) return 1
-      if (!b.kickoff) return -1
-      return new Date(a.kickoff) - new Date(b.kickoff)
-    })
+  // Group the round's matches by the next-round game they feed, so the two halves of a
+  // pairing sit together. Order follows the bracket tree (matches are already in tree
+  // order); within a pair, order matches the next game's feeder slots.
+  const groups = []
+  const byParent = {}
+  for (const m of matches) {
+    if (m.round !== roundKey) continue
+    const parent = NEXT_MATCH[m.id] // undefined for the Final
+    const key = parent ?? m.id
+    if (!byParent[key]) {
+      byParent[key] = { parent, items: [] }
+      groups.push(byParent[key])
+    }
+    byParent[key].items.push(m)
+  }
+  for (const g of groups) {
+    if (!g.parent) continue
+    const order = MATCH_BY_ID[g.parent].feeders
+    g.items.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id))
+  }
 
   return (
     <div className="bracket-view">
@@ -124,9 +137,24 @@ export default function BracketView({ matches, picks }) {
       </div>
 
       <div className="round-panel" key={roundKey} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
-        {roundMatches.map((m) => (
-          <BracketCell key={m.id} m={m} picks={picks} />
-        ))}
+        {groups.map((g) => {
+          const next = g.parent ? MATCH_BY_ID[g.parent] : null
+          return (
+            <div className={`pair-group${next ? '' : ' solo'}`} key={g.parent ?? g.items[0].id}>
+              {next && (
+                <div className="pair-head">
+                  Winners meet in
+                  <span className="pair-dest">{next.venue || ROUNDS[next.round].name}</span>
+                </div>
+              )}
+              <div className="pair-cells">
+                {g.items.map((m) => (
+                  <BracketCell key={m.id} m={m} picks={picks} />
+                ))}
+              </div>
+            </div>
+          )
+        })}
       </div>
 
       <div className="round-dots">

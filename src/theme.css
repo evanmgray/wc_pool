@@ -458,9 +458,54 @@ a {
 .round-panel {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 22px;
   touch-action: pan-y;
   animation: round-in 0.22s ease;
+}
+
+/* A feeder pair: the two games whose winners meet in the next round. */
+.pair-group {
+  position: relative;
+  padding-left: 16px;
+}
+.pair-group::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 18px;
+  bottom: 18px;
+  width: 10px;
+  border: 2px solid var(--neon-blue);
+  border-right: none;
+  border-radius: 10px 0 0 10px;
+  opacity: 0.5;
+}
+.pair-group.solo {
+  padding-left: 0;
+}
+.pair-group.solo::before {
+  display: none;
+}
+.pair-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  color: var(--neon-blue);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.pair-dest {
+  font-family: var(--display);
+  letter-spacing: 0.02em;
+  font-size: 12px;
+}
+.pair-cells {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 @keyframes round-in {
   from {

@@ -66,4 +66,13 @@ export const MATCHES = [
 
 export const MATCH_BY_ID = Object.fromEntries(MATCHES.map((m) => [m.id, m]))
 
+// childMatchId -> the next-round match it feeds into (its two feeders are a "pair").
+export const NEXT_MATCH = (() => {
+  const map = {}
+  for (const m of MATCHES) {
+    if (m.feeders) for (const f of m.feeders) map[f] = m.id
+  }
+  return map
+})()
+
 export const MAX_POINTS = MATCHES.reduce((sum, m) => sum + ROUNDS[m.round].points, 0)
