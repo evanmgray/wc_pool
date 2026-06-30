@@ -13,12 +13,15 @@ function predictedTeams(matchId, picks) {
   return m.feeders.map((f) => picks[f] ?? null)
 }
 
-function TeamRow({ code, m, eliminated }) {
+function TeamRow({ code, m, actual, eliminated }) {
   const picked = code && code === m.pick
   const isWinner = code && m.decided && code === m.winner
+  const teamOut = code && eliminated.has(code)
   // A non-picked predicted team that's already been knocked out (e.g. you had them
   // reaching this game but they lost earlier) gets struck through too.
-  const out = code && !picked && eliminated.has(code)
+  const out = teamOut && !picked
+  // When a predicted team is out, show who actually holds that slot (faded, not struck).
+  const showActual = teamOut && actual && actual !== code
   const cls = [
     'brow',
     picked && 'picked',
@@ -41,7 +44,14 @@ function TeamRow({ code, m, eliminated }) {
   return (
     <div className={cls}>
       <span className="flag">{code ? teamFlag(code) : ''}</span>
-      <span className="brow-name">{code ? teamName(code) : 'TBD'}</span>
+      <span className="brow-main">
+        <span className="brow-name">{code ? teamName(code) : 'TBD'}</span>
+        {showActual && (
+          <span className="brow-actual">
+            → {teamFlag(actual)} {teamName(actual)}
+          </span>
+        )}
+      </span>
       {isWinner && !picked && <span className="brow-check">✓</span>}
       {tag && <span className="brow-tag">{tag}</span>}
     </div>
@@ -50,6 +60,7 @@ function TeamRow({ code, m, eliminated }) {
 
 function BracketCell({ m, picks, eliminated }) {
   const [t1, t2] = predictedTeams(m.id, picks)
+  const [a1, a2] = m.actualTeams // real occupant of each slot, same order as feeders
   // If the player mispredicted who'd be here, show who actually advanced.
   const surprise = m.decided && m.winner && m.winner !== t1 && m.winner !== t2
 
@@ -65,8 +76,8 @@ function BracketCell({ m, picks, eliminated }) {
         {[m.venue, formatKickoff(m.kickoff)].filter(Boolean).join(' · ') || m.roundName}
       </div>
       <div className="bcell-teams">
-        <TeamRow code={t1} m={m} eliminated={eliminated} />
-        <TeamRow code={t2} m={m} eliminated={eliminated} />
+        <TeamRow code={t1} m={m} actual={a1} eliminated={eliminated} />
+        <TeamRow code={t2} m={m} actual={a2} eliminated={eliminated} />
       </div>
       {surprise && (
         <div className="bcell-result">

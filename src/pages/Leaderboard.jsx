@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
-import Header from '../components/Header.jsx'
 import LiveGames from '../components/LiveGames.jsx'
+import headerImage from '../assets/header_image.png'
 import { useResults } from '../context/ResultsContext.jsx'
 import { BRACKETS } from '../lib/loadBrackets.js'
 import { buildLeaderboard } from '../lib/scoring.js'
@@ -23,7 +23,7 @@ export default function Leaderboard() {
 
   return (
     <>
-      <Header subtitle="Elimination Round Bracket" />
+      <img src={headerImage} alt="World Cup Bracket Pool" className="header-image" />
 
       <LiveGames results={results} />
 
