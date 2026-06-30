@@ -223,6 +223,11 @@ a {
 .live-person.muted {
   color: var(--muted);
 }
+.live-pts {
+  margin-left: 5px;
+  color: var(--neon-orange);
+  font-size: 11px;
+}
 .live-empty {
   color: var(--muted);
   font-size: 12px;

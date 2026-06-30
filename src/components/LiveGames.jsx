@@ -1,10 +1,22 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { MATCHES, ROUNDS } from '../data/bracketStructure.js'
+import { MATCHES, ROUND_ORDER, ROUNDS } from '../data/bracketStructure.js'
 import { resolveActualTeams } from '../lib/scoring.js'
 import { isLive, formatKickoff } from '../lib/datetime.js'
 import { teamFlag, teamName } from '../data/teams.js'
 import { BRACKETS } from '../lib/loadBrackets.js'
+
+// Points riding on this live game for someone backing `team`: this match's points plus
+// every later round where they keep picking the same team (all lost if the team loses now).
+function pointsOnLine(picks, round, team) {
+  const start = ROUND_ORDER.indexOf(round)
+  let total = 0
+  for (const m of MATCHES) {
+    if (ROUND_ORDER.indexOf(m.round) < start) continue
+    if (picks[m.id] === team) total += ROUNDS[m.round].points
+  }
+  return total
+}
 
 export default function LiveGames({ results }) {
   // Re-render every minute so games appear/disappear as their 3h window passes.
@@ -58,6 +70,9 @@ export default function LiveGames({ results }) {
                       g.people.map((p) => (
                         <Link to={`/u/${p.id}`} className="live-person" key={p.id}>
                           {p.name}
+                          <span className="live-pts">
+                            ({pointsOnLine(p.picks, m.round, g.team)})
+                          </span>
                         </Link>
                       ))
                     ) : (
