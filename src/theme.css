@@ -604,6 +604,11 @@ a {
   text-decoration: line-through;
   text-decoration-thickness: 2px;
 }
+.brow.out .brow-name {
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  opacity: 0.7;
+}
 .brow-check {
   color: var(--neon-green);
   font-size: 14px;

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useResults } from '../context/ResultsContext.jsx'
 import { getBracket } from '../lib/loadBrackets.js'
-import { scoreBracket } from '../lib/scoring.js'
+import { scoreBracket, eliminatedTeams } from '../lib/scoring.js'
 import { ROUND_ORDER, ROUNDS } from '../data/bracketStructure.js'
 import { teamFlag, teamName } from '../data/teams.js'
 import { formatKickoff, isLive } from '../lib/datetime.js'
@@ -87,7 +87,13 @@ export default function UserBracket() {
         </button>
       </div>
 
-      {view === 'bracket' && <BracketView matches={scored.matches} picks={bracket.picks} />}
+      {view === 'bracket' && (
+        <BracketView
+          matches={scored.matches}
+          picks={bracket.picks}
+          eliminated={eliminatedTeams(results)}
+        />
+      )}
 
       {view === 'list' &&
         ROUND_ORDER.map((roundKey) => {

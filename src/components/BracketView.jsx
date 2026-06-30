@@ -13,15 +13,19 @@ function predictedTeams(matchId, picks) {
   return m.feeders.map((f) => picks[f] ?? null)
 }
 
-function TeamRow({ code, m }) {
+function TeamRow({ code, m, eliminated }) {
   const picked = code && code === m.pick
   const isWinner = code && m.decided && code === m.winner
+  // A non-picked predicted team that's already been knocked out (e.g. you had them
+  // reaching this game but they lost earlier) gets struck through too.
+  const out = code && !picked && eliminated.has(code)
   const cls = [
     'brow',
     picked && 'picked',
     picked && m.status === 'correct' && 'correct',
     // pink + strikethrough whenever the picked team is out (this game or an earlier one)
     picked && m.pickDead && 'wrong',
+    out && 'out',
     isWinner && 'winner',
   ]
     .filter(Boolean)
@@ -44,7 +48,7 @@ function TeamRow({ code, m }) {
   )
 }
 
-function BracketCell({ m, picks }) {
+function BracketCell({ m, picks, eliminated }) {
   const [t1, t2] = predictedTeams(m.id, picks)
   // If the player mispredicted who'd be here, show who actually advanced.
   const surprise = m.decided && m.winner && m.winner !== t1 && m.winner !== t2
@@ -61,8 +65,8 @@ function BracketCell({ m, picks }) {
         {[m.venue, formatKickoff(m.kickoff)].filter(Boolean).join(' · ') || m.roundName}
       </div>
       <div className="bcell-teams">
-        <TeamRow code={t1} m={m} />
-        <TeamRow code={t2} m={m} />
+        <TeamRow code={t1} m={m} eliminated={eliminated} />
+        <TeamRow code={t2} m={m} eliminated={eliminated} />
       </div>
       {surprise && (
         <div className="bcell-result">
@@ -73,7 +77,7 @@ function BracketCell({ m, picks }) {
   )
 }
 
-export default function BracketView({ matches, picks }) {
+export default function BracketView({ matches, picks, eliminated }) {
   const [idx, setIdx] = useState(0)
   const startX = useRef(null)
   const last = ROUND_ORDER.length - 1
@@ -145,7 +149,7 @@ export default function BracketView({ matches, picks }) {
             <div className={`pair-group${next ? '' : ' solo'}`} key={g.parent ?? g.items[0].id}>
               <div className="pair-cells">
                 {g.items.map((m) => (
-                  <BracketCell key={m.id} m={m} picks={picks} />
+                  <BracketCell key={m.id} m={m} picks={picks} eliminated={eliminated} />
                 ))}
               </div>
               {next && (
