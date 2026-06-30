@@ -62,7 +62,14 @@ export default function UserBracket() {
       </div>
 
       {ROUND_ORDER.map((roundKey) => {
-        const roundMatches = scored.matches.filter((m) => m.round === roundKey)
+        const roundMatches = scored.matches
+          .filter((m) => m.round === roundKey)
+          .sort((a, b) => {
+            // ascending kickoff time; matches without a time sort last
+            if (!a.kickoff) return 1
+            if (!b.kickoff) return -1
+            return new Date(a.kickoff) - new Date(b.kickoff)
+          })
         return (
           <div key={roundKey}>
             <div className="section-label">
